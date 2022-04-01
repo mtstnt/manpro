@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center pt-3">
+        <form action="functions.php" method="post" name="upload_excel" enctype="multipart/form-data">
+            <!-- Form Name -->
+            <legend>GOAL PROGRAMMING</legend>
+            <!-- File Button -->
+            <h5 class="pt-3 pb-1">Import Client Data</h5>
+            <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <label class="col-sm-2 col-form-label text-left" for="filebutton">Select File</label>
+                <div class="col-sm-4">
+                    <input type="file" name="file" id="file2" class="form-control-file">
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <!-- Button -->
+            <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <label class="col-sm-2 col-form-label text-left" for="singlebutton">Import data</label>
+                <div class="col-sm-4 text-left">
+                    <button type="submit" id="submit1" name="Import" class="btn btn-primary button-loading btn-sm" data-loading-text="Loading...">Import</button>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <br>
+            <!-- File Button -->
+            <h5 class="pb-1">Import Driver Data</h5>
+            <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <label class="col-sm-2 control-label text-left" for="filebutton">Select File</label>
+                <div class="col-sm-4">
+                    <input type="file" name="file" id="file2" class="form-control-file">
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <!-- Button -->
+            <div class="form-group row">
+                <div class="col-sm-4"></div>
+                <label class="col-sm-2 control-label text-left" for="singlebutton">Import data</label>
+                <div class="col-sm-4 text-left">
+                    <button type="submit" id="submit2" name="Import" class="btn btn-primary button-loading btn-sm" data-loading-text="Loading...">Import</button>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            
+             <!-- Priority Matching -->
+            <div class="form-group row pt-4">
+                <div class="col-sm-2"></div>
+                <label class="col-sm-4 control-label font-weight-bold text-right" for="singlebutton">Piority Matching</label>
+                <div class="col-sm-4 text-left">
+                    <button type="submit" id="start" name="Import" class="btn btn-warning button-loading" data-loading-text="Loading...">Start</button>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+            </div>
+    </form>
+<?php
+   get_all_records();
+?>
+    </div>
+        
+</body>
+</html>
