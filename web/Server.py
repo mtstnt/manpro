@@ -10,7 +10,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/upload', method=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     req_data_client = request.files.get("client_data")
     req_data_driver = request.files.get("driver_data")
