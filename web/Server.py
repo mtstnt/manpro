@@ -13,6 +13,7 @@ def client():
         req_data_client = request.files.get("csvfile")
         result_client = pd.read_csv(req_data_client)
         return render_template('data.html', data=result_client)
+print("Hello")
 
 # @app.route('/driver', methods=['GET', 'POST'])
 # def client():
