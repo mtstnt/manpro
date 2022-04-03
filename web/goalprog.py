@@ -11,8 +11,8 @@ def get_distance_and_duration(client: ors.Client, lat1, lon1, lat2, lon2):
         }
 
 def match(customers: pd.DataFrame, drivers: pd.DataFrame) -> list[tuple[int, int]]:
-    customers = customers.to_dict('records')
-    drivers = drivers.to_dict('records')
+    customers = customers[:5].to_dict('records')
+    drivers = drivers[:5].to_dict('records')
 
     weights = {
         'distance': { 'target': 10000, 'positive': 1, 'negative': -1 },
@@ -44,13 +44,12 @@ def match(customers: pd.DataFrame, drivers: pd.DataFrame) -> list[tuple[int, int
                 "rating": d['rating'],
             }
 
-    result, model = construct_model(weights, data)
+    result, model = construct_model(drivers, customers, weights, data)
 
     result = []
-    ind = 0
     for d in drivers:
         for c in customers:
-            if model.x[d, c]() == 1:
+            if model.x[d['id'], c['id']]() == 1:
                result.append((d, c)) 
 
     return result
@@ -73,7 +72,7 @@ def penalty(model: pyo.Model, weights: dict, data: list[list[dict]], c: int, d: 
         (m['negative'] * model.x[d, c] * get_penalty(m['target'], data[d][c][param], False) / m['target'] / 100)
     )
 
-def construct_model(weights: dict, data: list[list[dict]]) -> pyo.ConcreteModel:
+def construct_model(drivers, customers, weights: dict, data: list[list[dict]]) -> pyo.ConcreteModel:
     # Model pyomo utk solve GP
     model = pyo.ConcreteModel()
     model.dual = pyo.Suffix(direction=pyo.Suffix.IMPORT)
