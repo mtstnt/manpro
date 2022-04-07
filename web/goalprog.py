@@ -53,7 +53,7 @@ def match(customers: pd.DataFrame, drivers: pd.DataFrame) -> list[tuple[int, int
             if model.x[d['id'], c['id']]() == 1:
                result.append({
                    'match': (d, c),
-                   'data': data[d][c]
+                   'data': data[d['id']][c['id']]
                })
 
     return result
