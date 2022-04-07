@@ -1,8 +1,18 @@
 {% extends "layout.html" %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css"
+    crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
 {% block content %}
 <div class="container text-center pt-3 d-flex justify-content-center align-items-center w-100 min-vh-100">
-    <form class="col-11 col-lg-6 border p-4 py-5 rounded-lg shadow-lg" action="/upload" method="POST" enctype="multipart/form-data">
+    <form class="col-11 col-lg-6 border p-4 py-5 rounded-lg shadow-lg" action="/upload" method="POST"
+        enctype="multipart/form-data">
         <!-- Form Name -->
         <h3 class="font-weight-bold">Priority Matching</h3>
         <h5 class="font-weight-bold">dengan Metode Goal Programming</h5>
@@ -11,16 +21,16 @@
         </div>
         <!-- File Button -->
         <div class="col-sm-8 col-sm-10 mx-auto">
-            <div class="form-group row mt-4">
-                <label class="col col-form-label text-left" for="filebutton">Client Data</label>
-                <div class="col-sm-8">
-                    <input type="file" name="client_data" id="client_data" class="form-control-file">
-                </div>
-            </div>
             <div class="form-group row">
                 <label class="col control-label text-left" for="filebutton">Driver Data</label>
                 <div class="col-sm-8">
                     <input type="file" name="driver_data" id="driver_data" class="form-control-file">
+                </div>
+            </div>
+            <div class="form-group row mt-4">
+                <label class="col col-form-label text-left" for="filebutton">Client Data</label>
+                <div class="col-sm-8">
+                    <input type="file" name="client_data" id="client_data" class="form-control-file">
                 </div>
             </div>
             <!-- Priority Matching -->
@@ -31,4 +41,8 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 {% endblock %}

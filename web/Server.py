@@ -5,6 +5,7 @@ import pandas as pd
 import goalprog as gp
 
 app = Flask(__name__)
+app.static_folder = 'static'
 
 @app.route('/', methods=['GET'])
 def home():
@@ -13,6 +14,10 @@ def home():
     }
 
     return render_template('index.html', **data)
+
+@app.route('/testing', methods=['GET'])
+def result():
+    return render_template('result.html', title="hellow orld")
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -27,7 +32,8 @@ def upload():
     data = {
         "clients_data": clients_data,
         "drivers_data": drivers_data,
-        "result": result
+        "result": result,
+        "title": "Result",
     }
     return render_template('result.html', **data)
 
