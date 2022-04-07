@@ -29,7 +29,6 @@ def upload():
         "drivers_data": drivers_data,
         "result": result
     }
-
     return render_template('result.html', **data)
 
 if __name__ == '__main__':
