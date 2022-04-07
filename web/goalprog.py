@@ -11,6 +11,7 @@ def get_distance_and_duration(client: ors.Client, lat1, lon1, lat2, lon2):
         }
 
 def match(customers: pd.DataFrame, drivers: pd.DataFrame) -> list[tuple[int, int]]:
+    # Maximum 5 data untuk mencegah melebihi API rate limit
     customers = customers[:5].to_dict('records')
     drivers = drivers[:5].to_dict('records')
 
@@ -50,7 +51,10 @@ def match(customers: pd.DataFrame, drivers: pd.DataFrame) -> list[tuple[int, int
     for d in drivers:
         for c in customers:
             if model.x[d['id'], c['id']]() == 1:
-               result.append((d, c)) 
+               result.append({
+                   'match': (d, c),
+                   'data': data[d][c]
+               })
 
     return result
 
