@@ -8,23 +8,29 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('index.html')
+    data = {
+        "title": "Project Goal Programming"
+    }
+
+    return render_template('index.html', **data)
 
 @app.route('/upload', methods=['POST'])
 def upload():
     req_data_client = request.files.get("client_data")
     req_data_driver = request.files.get("driver_data")
+
     clients_data = pd.read_csv(req_data_client)
     drivers_data = pd.read_csv(req_data_driver)
-    print(gp.match(clients_data, drivers_data))
-    return redirect('/')
 
-# @app.route('/driver', methods=['GET', 'POST'])
-# def client():
-#     if request.method == 'POST':
-#         req_data = request.files.get("csvfile")
-#         result = pd.read_csv(req_data)
-#         return render_template('data.html', data=result)
+    result = gp.match(clients_data, drivers_data)
+
+    data = {
+        "clients_data": clients_data,
+        "drivers_data": drivers_data,
+        "result": result
+    }
+
+    return render_template('result.html', **data)
 
 if __name__ == '__main__':
     load_dotenv(override=True)
