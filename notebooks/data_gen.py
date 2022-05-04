@@ -4,6 +4,7 @@ import numpy as np
 
 DRIVER_DATA_FILENAME = "./datasets/data_driver_2.csv"
 CLIENT_DATA_FILENAME = "./datasets/data_client_2.csv"
+BANNED_DATA_FILENAME = "./datasets/banned_data.csv"
 
 n = 1500
 r_lat = np.arange(-7.365671, -7.226902, 0.000001)
@@ -14,7 +15,6 @@ r_total_trip = np.arange(2.0, 10.0, 0.001)
 r_time_idle = 7200
 
 header = ["id", "latitude", "longitude", "rating_driver", "order_count", "total_trip", "time_idle"]
-
 with open(DRIVER_DATA_FILENAME, "w", newline="") as f:
     print("Opening CSV")
     writer = csv.writer(f)
@@ -52,4 +52,18 @@ with open(CLIENT_DATA_FILENAME, "w", newline="") as f:
         row.append(random.randint(1, r_rating))  # rating
         writer.writerow(row)
     print("Client data created")
+print("Closing CSV")
+
+header = ["client_id", "driver_id"]
+with open(BANNED_DATA_FILENAME, "w", newline="") as f:
+    print("Opening CSV")
+    writer = csv.writer(f)
+    writer.writerow(header)
+    print("Creating banned data")
+    for i in range(n):
+        row = []
+        row.append(r_lat[random.randint(0, n)])  # id client
+        row.append(r_long[random.randint(0, n)])  # id driver
+        writer.writerow(row)
+    print("Banned data created")
 print("Closing CSV")
