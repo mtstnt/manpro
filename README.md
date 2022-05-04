@@ -21,3 +21,6 @@ Sebaliknya yang pertama.
 
 3. Tambahin analisa di hasil
 Web nanti kalo mau bisa masukin chart pake chart.js atau highcharts.
+
+4. Banned list (penumpang - driver pair yang ada kondisi banned, sehingga tidak boleh dipasangkan)
+Tambah ConstraintList utk Xij == 0
