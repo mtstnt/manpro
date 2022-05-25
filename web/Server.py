@@ -35,6 +35,7 @@ def upload():
         "result": result,
         "title": "Result",
     }
+    
     return render_template('result.html', **data)
 
 if __name__ == '__main__':
