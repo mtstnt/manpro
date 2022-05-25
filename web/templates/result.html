@@ -1,98 +1,82 @@
 {% extends "layout.html" %}
 
 {% block head %}
-{{ super() }}
-<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}" />
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
-<!--===============================================================================================-->
-<!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+<style>
+    html, body {
+        scroll-behavior: smooth;
+    }
+
+    table {
+        display: inline-block !important;
+        max-height: 500px !important;
+        overflow-y: auto !important;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- <div class="container-fluid px-0 text-center pt-3 d-flex justify-content-center align-items-center w-100 min-vh-100">
-
-</div> -->
-<style>
-    table * {
-        font-size: 1rem !important;
-    }
-    table th {
-    }
-</style>
-<div class="limiter">
-    <div class="container-table100">
-        <div class="wrap-table100 col-8">
-            <div class="d-flex justify-content-between w-100 mb-4">
-                <h3 class="font-weight-bold">Hasil dari perhitungan Goal Programming</h3>
-                <a class="btn btn-secondary" href="/">Kembali ke halaman utama</a>
-            </div>
-            <div class="table100 ver1 m-b-110">
-                <div class="table100-head">
-                    <table>
-                        <thead>
-                            <tr class="row100 head">
-                                <th class="cell100 column1">Driver ID</th>
-                                <th class="cell100 column3">Customer ID</th>
-                                <th class="cell100 column3">Distance</th>
-                                <th class="cell100 column3">Duration</th>
-                                <th class="cell100 column3">Rating</th>
-                                <th class="cell100 column3">Order Count</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-
-                <div class="table100-body js-pscroll">
-                    <table>
-                        <tbody>
-                            {% for d in result %}
-                            <tr class="row100 body">
-                                <td class="cell100 column1">{{ d['match'][0]['id'] }}</td>
-                                <td class="cell100 column3">{{ d['match'][1]['id'] }}</td>
-                                <td class="cell100 column3">{{ d['data']['distance'] }} m</td>
-                                <td class="cell100 column3">{{ d['data']['duration'] }} s</td>
-                                <td class="cell100 column3">{{ d['data']['rating'] }}</td>
-                                <td class="cell100 column3">{{ d['data']['order_count'] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="container">
+    <div class="col-lg-11 mx-auto shadow-lg px-5 py-2">
+        <h1 class="pt-5 pb-2">Hasil Perhitungan</h1>
+        <div class="mb-4">
+            <a href="#result">Priority Matching</a>
+            <a href="#info">Detail</a>
         </div>
+        <section id="result" class="mb-5">
+            <h2 class="mb-4">Priority Matching </h2>
+            <table class="table table-hover text-center table-responsive table-bordered">
+                <thead>
+                    <th>&nbsp;</th>
+                    {% for i in clients %}
+                    <th>C{{ i }}</th>
+                    {% endfor %}
+                </thead>
+                <tbody>
+                    {% for d in drivers %}
+                    <tr>
+                        <td><b>D{{ d }}</b></td>
+                        {% for c in clients %}
+                            {% if result[d][c] == 1.0 %}
+                                <td>&#10004;</td>
+                                <!-- <td>{{ result[d][c] }}</td> -->
+                            {% else %}
+                                <td>&nbsp;</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="info">
+            <h2 class="mb-4">Detailed Information</h2>
+            <table class="table table-hover text-center">
+                <thead>
+                    <th>Driver</th>
+                    <th>Client</th>
+                    <th>Distance</th>
+                    <th>Duration</th>
+                    <th>Rating Driver</th>
+                    <th>Rating Client</th>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            <td><b>{{ row['driver'] }}</b></td>
+                            <td><b>{{ row['client'] }}</b></td>
+                            <td>{{ row['distance_ori'] }}</td>
+                            <td>{{ row['duration_ori'] }}</td>
+                            <td>{{ row['rating_driver_ori'] }}</td>
+                            <td>{{ row['rating_client_ori'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </div>
 </div>
-{% endblock  %}
+{% endblock %}
 
 {% block script %}
-<!--===============================================================================================-->
-<script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-<script>
-    $('.js-pscroll').each(function () {
-        var ps = new PerfectScrollbar(this);
-
-        $(window).on('resize', function () {
-            ps.update();
-        })
-    });
-</script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
 {% endblock %}

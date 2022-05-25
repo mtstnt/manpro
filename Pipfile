@@ -8,6 +8,7 @@ pyomo = "*"
 scikit-learn = "*"
 python-dotenv = "*"
 pandas = "*"
+flask = "*"
 
 [dev-packages]
 ipykernel = "*"
