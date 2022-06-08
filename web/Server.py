@@ -25,18 +25,20 @@ def upload():
     req_data_driver = request.files.get("driver_data")
     req_data_banned = request.files.get("banned_data")
 
+    print(req_data_banned)
+
     clients_data = pd.read_csv(req_data_client)
     drivers_data = pd.read_csv(req_data_driver)
 
-    banned_data = None
-
-    if req_data_banned is not None:
+    if request.files['banned_data'].filename == '':
+        banned_data = None
+    else: 
         banned_data = pd.read_csv(req_data_banned)
 
     raw, result = gp.match(clients_data, drivers_data, banned_data)
 
-    drivers = drivers_data[0:20]['id'].to_list()
-    clients = clients_data[0:20]['id'].to_list()
+    drivers = drivers_data['id'].to_list()
+    clients = clients_data['id'].to_list()
 
     # Ambilnya table[driver_id][client_id]
     table = result.to_dict('index')
