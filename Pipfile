@@ -9,6 +9,7 @@ scikit-learn = "*"
 python-dotenv = "*"
 pandas = "*"
 flask = "*"
+openpyxl = "*"
 
 [dev-packages]
 ipykernel = "*"

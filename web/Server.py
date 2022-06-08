@@ -30,6 +30,9 @@ def upload():
     clients_data = pd.read_csv(req_data_client)
     drivers_data = pd.read_csv(req_data_driver)
 
+    clients_data = clients_data[0:20]
+    drivers_data = drivers_data[0:20]
+
     if request.files['banned_data'].filename == '':
         banned_data = None
     else: 
@@ -43,11 +46,16 @@ def upload():
     # Ambilnya table[driver_id][client_id]
     table = result.to_dict('index')
 
+    print(table)
+
     data = []
     for d in drivers:
         for c in clients:
             if result.loc[d][c] == 1.0:
                 data.append({"client": c, "driver": d, **raw[d][c]})
+
+    # Dump to csv file, assuming run dengan runweb.sh
+    result.to_excel('./static/results.xlsx')
             
     data = {
         "result": table,

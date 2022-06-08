@@ -10,8 +10,6 @@ def match(
     clients: pd.DataFrame, drivers: pd.DataFrame, banned: pd.DataFrame
 ) -> list[tuple[int, int]]:
 
-    clients = clients[0:20]
-    drivers = drivers[0:20]
     # Max latitude, longitude dari dummy harus bisa menggambarkan situasi terburuk (posisi terjauh)
     # Tapi juga menggambarkan posisi driver kurang lebih. Jadi dummy itu merepresentasikan jarak terjauh dari rata-rata driver.
     driver_lat_avg = drivers["latitude"].mean()
@@ -59,7 +57,7 @@ def match(
     clients_data = clients.to_dict("records")
 
     banned_data = None
-    if banned != None:
+    if banned is not None:
         banned_data = banned.to_dict("records")
 
     locations = []
@@ -250,50 +248,23 @@ def get_location_info(locations):
         "metrics": ["distance", "duration"],
     }
 
-    res = req.post(
-        "https://api.openrouteservice.org/v2/matrix/driving-car",
-        json=body,
-        headers=headers,
-    )
+    retries = 10
+    res = None
+    for _ in range(retries):
+        try:
+            res = req.post(
+                "https://api.openrouteservice.org/v2/matrix/driving-car",
+                json=body,
+                headers=headers,
+            )
 
-    print(res.status_code)
-    if res.status_code == 200:
-        data = res.json()
-        memo[tuple(locations)] = data
-        return create_matrix(data, locations)
-    else:
-        raise Exception("Error", res.status_code, res.content.decode())
+            if res.status_code == 200:
+                data = res.json()
+                memo[tuple(locations)] = data
+                return create_matrix(data, locations)
+        except:
+            continue
+        # else:
+        #     raise Exception("Error", res.status_code, res.content.decode())
 
-
-# Define Objective
-def get_penalty(target, val, positive):
-    if positive:
-        if val > target:
-            return val - target
-        else:
-            return 0
-    else:
-        if val < target:
-            return target - val
-        else:
-            return 0
-
-
-# Penalty = (weight positive * X * deviasi dgn target / 1% dari target)
-def penalty(
-    model: pyo.Model, weights: dict, data: list[list[dict]], c: int, d: int, param: str
-):
-    m = weights[param]
-    return (
-        m["positive"]
-        * model.x[d, c]
-        * get_penalty(m["target"], data[d][c][param], True)
-        / m["target"]
-        / 100
-    ) + (
-        m["negative"]
-        * model.x[d, c]
-        * get_penalty(m["target"], data[d][c][param], False)
-        / m["target"]
-        / 100
-    )
+    raise Exception("Please retry (Connection error)")
