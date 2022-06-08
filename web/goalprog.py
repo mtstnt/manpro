@@ -57,7 +57,10 @@ def match(
     # Ambil data sbg list
     drivers_data = drivers.to_dict("records")
     clients_data = clients.to_dict("records")
-    banned_data = banned.to_dict("records")
+
+    banned_data = None
+    if banned != None:
+        banned_data = banned.to_dict("records")
 
     locations = []
     for i in drivers_data:
